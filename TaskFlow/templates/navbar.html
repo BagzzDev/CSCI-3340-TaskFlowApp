@@ -12,7 +12,7 @@
         <li><a href="{% url 'features' %}" class="nav-link px-2 text-white">Features</a></li>
         <li><a href="{% url 'about_us' %}" class="nav-link px-2 text-white">About Us</a></li>
         <li><a href="{% url 'freqask' %}" class="nav-link px-2 text-white">FAQs</a></li>
-        {% if user.is_authenticated %}
+        {% if request.user.is_authenticated %}
           <li><a href="{% url 'tasks' %}" class="nav-link px-2 text-white">To-Do List</a></li> <!-- New link for To-Do List -->
         {% endif %}
       </ul>
@@ -20,7 +20,7 @@
       <div class="text-end">
         <nav>
           <ul class="list-unstyled mb-0">
-            {% if user.is_authenticated %}
+            {% if request.user.is_authenticated %}
               <li><a href="{% url 'logout' %}" class="btn btn-outline-light me-2 text-decoration-none">Logout</a></li>
             {% else %}
               <li><a href="{% url 'log' %}" class="btn btn-outline-light me-2 text-decoration-none">Login</a></li>
