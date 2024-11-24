@@ -85,7 +85,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(TaskCreate, self).form_valid
+        return super().form_valid(form)
 
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
