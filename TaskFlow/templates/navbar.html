@@ -1,14 +1,26 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="home.html">TaskFlow</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-          <a class="nav-link" href="#">Features</a>
-        </li>
+<header class="p-3 bg-dark text-white">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-start">
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+        <i class="fa-solid fa-water me-2" style="font-size: 2rem;"></i>
+        <span style="font-size: 1.5rem; font-weight: bold;">TaskFlow</span>
+      </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="#" class="nav-link px-2 text-white">Home</a></li>
+        <li><a href="{% url 'features' %}" class="nav-link px-2 text-white">Features</a></li>
+        <li><a href="{% url 'about_us' %}" class="nav-link px-2 text-white">About Us</a></li>
+        <li><a href="{% url 'freqask' %}" class="nav-link px-2 text-white">FAQs</a></li>
+
       </ul>
+
+      <div class="text-end">
+        <a href="{% url 'log' %}" class="btn btn-outline-light me-2 text-decoration-none">
+          Login
+        </a>
+        <a href="{% url 'signup' %}" class="btn btn-outline-light me-2 text-decoration-none">
+          Sign-Up
+        </a>
     </div>
   </div>
-</nav>
+</header>
