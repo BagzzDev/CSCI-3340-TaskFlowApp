@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'taskflow_database',
         'USER': 'root',
-        'PASSWORD': '2101776Mata',
+        'PASSWORD': '!Coco1130991229!',
         'HOST': 'localhost',
         'PORT': '3306',
     }
