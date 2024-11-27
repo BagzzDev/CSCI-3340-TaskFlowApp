@@ -9,6 +9,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Task
+from .forms import RegisterUserForm
 
 def home(request):
     return render(request, 'home.html')
@@ -24,12 +25,12 @@ def freqask(request):
 
 def signup(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST or None)
+        form = RegisterUserForm(request.POST or None)
         if form.is_valid():
             form.save()
             return redirect('log')
     else:
-        form = UserCreationForm()
+        form = RegisterUserForm()
         
 
     return render(request, 'signup.html', {"form": form})
