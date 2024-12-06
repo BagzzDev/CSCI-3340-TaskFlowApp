@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
@@ -24,14 +26,40 @@ def freqask(request):
 def contact(request):
     return render(request, 'contact.html')
 
+class RegisterUserForm(UserCreationForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'password1', 'password2']
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
+
 def signup(request):
     if request.method == "POST":
-        form = RegisterUserForm(request.POST or None)
+        form = RegisterUserForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('log')
+            # Check if email already exists
+            email = form.cleaned_data['email']
+            if User.objects.filter(email=email).exists():
+                form.add_error('email', 'An account with this email already exists.')
+            else:
+                # Save the user if the email is unique
+                user = form.save(commit=False)
+                user.email = email
+                user.save()
+                return redirect('log')
     else:
         form = RegisterUserForm()
+
+    return render(request, 'signup.html', {"form": form})
+
+
         
 
     return render(request, 'signup.html', {"form": form})
