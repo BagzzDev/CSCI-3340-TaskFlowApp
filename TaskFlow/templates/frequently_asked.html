@@ -1,6 +1,57 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>How long did it take you to set this up?</h1>
-<h2>Too long</h2>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Frequently Asked Questions (FAQ)</h1>
+
+    <hr class="mb-5">
+
+    <div>
+        <h2 class="mb-4">General Questions</h2>
+        <div class="mb-5">
+            <h3 class="mb-3">Q: How do I create a task?</h3>
+            <p>A: Just below where it says "username" to-do list, there is a button to create a task.</p>
+        </div>
+        <div class="mb-5">
+            <h3 class="mb-3">Q: How do I edit a task?</h3>
+            <p>A: Right next to the view and delete button, there is an edit button so you can edit your task and description.</p>
+        </div>
+        <div class="mb-5">
+            <h3 class="mb-3">Q: How do I delete a task?</h3>
+            <p>A: Right after you've created a task, it will have two options: either to view your tasks and delete that task.</p>
+        </div>
+    </div>
+
+    <hr class="mb-5">
+
+    <div>
+        <h2 class="mb-4">Account Questions</h2>
+        <div class="mb-5">
+            <h3 class="mb-3">Q: How do I create an account?</h3>
+            <p>A: In the top right corner, there is a sign-up button. It will ask for the username you want and a strong password so you can start keeping track of tasks!</p>
+        </div>
+        <div class="mb-5">
+            <h3 class="mb-3">Q: How do I reset my password?</h3>
+            <p>A: You can't. ¯\_(ツ)_/¯</p>
+        </div>
+    </div>
+
+    <hr class="mb-5">
+
+    <div>
+        <h2 class="mb-4">Technical Questions</h2>
+        <div class="mb-5">
+            <h3 class="mb-3">Q: What should I do if I encounter an error?</h3>
+            <p>A: Cry.</p>
+        </div>
+        <div class="mb-5">
+            <h3 class="mb-3">Q: Can I access this app on mobile devices?</h3>
+            <p>A: Unfortunately, TaskFlow is only available on desktop. Hopefully, it will reach mobile devices soon.</p>
+        </div>
+    </div>
+
+    <hr class="mb-5">
+
+    <p class="mt-5 text-center">If you have more questions, please <a href="{% url 'contact' %}" class="text-decoration-none">contact us</a>.</p>
+</div>
 {% endblock %}

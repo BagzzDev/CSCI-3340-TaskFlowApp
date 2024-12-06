@@ -1,9 +1,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-5">
+  <div class="text-center">
+    <h1 class="mb-4">About Us</h1>
+    <p class="lead">Meet the amazing team behind TaskFlow. We're dedicated to creating the best task management experience for you.</p>
+  </div>
 
-<h1>Vianca Mata</h1>
-<h1>Ernesto Perez</h1>
-<h1>Karime Mejia</h1>
+  <div class="row mt-5 text-center">
+    <!-- Team Member 1 -->
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h2 class="card-title">Vianca Mata</h2>
+          <p class="card-text">Developer</p>
+        </div>
+      </div>
+    </div>
 
+    <!-- Team Member 2 -->
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h2 class="card-title">Ernesto Perez</h2>
+          <p class="card-text">Document Owner</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Team Member 3 -->
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <h2 class="card-title">Karime Mejia</h2>
+          <p class="card-text">Designer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,8 +1,17 @@
-<h3>Task Form: </h3>
-<a href = "{% url 'tasks' %}">Go Back</a>
+<h3 style="text-align: center; color: #000000; font-size: 1.8em;">Create a New Task </h3>
+<a href="{% url 'tasks' %}" style="text-decoration: none; font-size: 1.2em; color: #000000; margin-bottom: 20px; display: inline-block;">⬅ Back to To-Do List</a>
 
-<form method = "POST" action="">
+<form method="POST" action="" style="max-width: 400px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
     {% csrf_token %}
-    {{form}}
-    <input type = "submit" value = "Submit">
+    <div style="margin-bottom: 15px;">
+        <label for="{{ form.title.id_for_label }}" style="font-weight: bold; font-size: 1.1em;">📌 {{ form.title.label }}</label><br>
+        {{ form.title }}
+    </div>
+    <div style="margin-bottom: 20px;">
+        <label for="{{ form.description.id_for_label }}" style="font-weight: bold; font-size: 1.1em;">📝 {{ form.description.label }}</label><br>
+        {{ form.description }}
+    </div>
+    <div style="text-align: center;">
+        <input type="submit" value="Save Task" style="background-color: #707371; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer;">
+    </div>
 </form>

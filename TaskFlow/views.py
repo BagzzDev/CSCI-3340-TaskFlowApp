@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -13,15 +14,15 @@ from .forms import RegisterUserForm
 
 def home(request):
     return render(request, 'home.html')
-    
-def features(request):
-    return render(request, 'features.html')
 
 def about_us(request):
     return render(request, 'about_us.html')
 
 def freqask(request):
     return render(request, 'frequently_asked.html')
+
+def contact(request):
+    return render(request, 'contact.html')
 
 def signup(request):
     if request.method == "POST":
@@ -70,7 +71,10 @@ class TaskList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['count'] = context['tasks'].filter(complete=False).count()
+        user_tasks = Task.objects.filter(user=self.request.user)
+        context['incomplete_tasks'] = user_tasks.filter(complete=False)
+        context['completed_tasks'] = user_tasks.filter(complete=True)
+        context['user'] = self.request.user
         return context
 
 class TaskDetail(LoginRequiredMixin, DetailView):
@@ -93,6 +97,13 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
     fields = ['title', 'description', 'complete']
     success_url = reverse_lazy('tasks')
     template_name = 'task_form.html'
+
+    def post(self, request, *args, **kwargs):
+        """Handle the toggle logic when the checkbox is used."""
+        task = self.get_object()
+        task.complete = 'complete' in request.POST
+        task.save()
+        return HttpResponseRedirect(self.success_url)
 
 class DeleteView(LoginRequiredMixin, DeleteView):
     model = Task

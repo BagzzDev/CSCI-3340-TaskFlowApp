@@ -2,26 +2,70 @@
 
 {% block content %}
 <hr>
-<h1>My To-Do List</h1>
+<h1 style="margin-bottom: 20px;"> {{ user.username }}'s To-Do List </h1>
 
-<a href ="{%url 'task-create' %}">Add Task</a>
+<p style="margin-bottom: 30px;">Keep track of your tasks below!</p>
 
-<table>
+<a href="{% url 'task-create' %}" style="font-size: 1.2em; text-decoration: none; margin-bottom: 40px; display: inline-block;">➕ Add a New Task</a>
+
+<h2 style="margin-top: 5px; margin-bottom: 20px;">📝 Incomplete Tasks</h2>
+<table border="1" cellpadding="15" cellspacing="0" style="width: 100%; text-align: left; margin-bottom: 40px;">
     <tr>
-        <th>Items</th>
-        <th></th>
-        <th></th>
+        <th style="width: 10%;">✔️ Done?</th>
+        <th style="width: 60%;">Task</th>
+        <th style="width: 30%;">Actions</th>
     </tr>
-    {% for task in tasks %}
+    {% for task in incomplete_tasks %}
     <tr>
-        <td>{{task.title}}</td>
-        <td><a href = "{% url 'task' task.id %}">View</a></td>
-        <td><a href = "{% url 'task-update' task.id %}">Edit</a></td>
-        <td><a href = "{% url 'task-delete' task.id %}">Delete</a></td>
+        <form method="POST" action="{% url 'task-update' task.id %}">
+            {% csrf_token %}
+            <td>
+                <input type="checkbox" name="complete" value="true" onchange="this.form.submit()">
+            </td>
+            <td>{{ task.title }}</td>
+            <td>
+                <a href="{% url 'task' task.id %}">View</a> |
+                <a href="{% url 'task-update' task.id %}">Edit</a> |
+                <a href="{% url 'task-delete' task.id %}">Delete</a>
+            </td>
+        </form>
     </tr>
     {% empty %}
-    <h3>No Items in List</h3>
+    <tr>
+        <td colspan="3" style="text-align: center;">🎉 No tasks pending! Time to relax! 🎉</td>
+    </tr>
     {% endfor %}
 </table>
+
+<h2 style="margin-top: 40px; margin-bottom: 20px;">✅ Completed Tasks</h2>
+<table border="1" cellpadding="15" cellspacing="0" style="width: 100%; text-align: left; margin-bottom: 40px;">
+    <tr>
+        <th style="width: 10%;">✔️ Undo?</th>
+        <th style="width: 60%;">Task</th>
+        <th style="width: 30%;">Actions</th>
+    </tr>
+    {% for task in completed_tasks %}
+    <tr>
+        <form method="POST" action="{% url 'task-update' task.id %}">
+            {% csrf_token %}
+            <td>
+                <input type="checkbox" name="complete" value="true" checked onchange="this.form.submit()">
+            </td>
+            <td style="text-decoration: line-through; color: gray;">{{ task.title }}</td>
+            <td>
+                <a href="{% url 'task' task.id %}">View</a> |
+                <a href="{% url 'task-update' task.id %}">Edit</a> |
+                <a href="{% url 'task-delete' task.id %}">Delete</a>
+            </td>
+        </form>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3" style="text-align: center;">🚀 No completed tasks yet—get to work! 🚀</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<p style="margin-top: 40px;">Stay productive and have fun!</p>
 
 {% endblock %}

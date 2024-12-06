@@ -1,33 +1,32 @@
 <header class="p-3 bg-dark text-white">
   <div class="container">
     <div class="d-flex flex-wrap align-items-center justify-content-between">
-      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+      <!-- Logo and Brand Title -->
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" aria-label="TaskFlow Home">
         <i class="fa-solid fa-water me-2 logo"></i>
         <span class="header-title">TaskFlow</span>
       </a>
 
       <!-- Centered Navigation Links -->
       <ul class="nav col-12 col-lg-auto mb-2 mb-md-0 nav-center">
-        <li><a href="{% url 'home' %}" class="nav-link px-2 text-white">Home</a></li>
-        <li><a href="{% url 'features' %}" class="nav-link px-2 text-white">Features</a></li>
-        <li><a href="{% url 'about_us' %}" class="nav-link px-2 text-white">About Us</a></li>
-        <li><a href="{% url 'freqask' %}" class="nav-link px-2 text-white">FAQs</a></li>
+        <li><a href="{% url 'home' %}" class="nav-link px-2 text-white" aria-label="Home">Home</a></li>
+        <li><a href="{% url 'about_us' %}" class="nav-link px-2 text-white" aria-label="About Us">About Us</a></li>
+        <li><a href="{% url 'freqask' %}" class="nav-link px-2 text-white" aria-label="FAQs">FAQs</a></li>
+        <li><a href="{% url 'contact' %}" class="nav-link px-2 text-white">Contact Us</a></li>
+
         {% if request.user.is_authenticated %}
-          <li><a href="{% url 'tasks' %}" class="nav-link px-2 text-white">To-Do List</a></li> <!-- New link for To-Do List -->
+          <li><a href="{% url 'tasks' %}" class="nav-link px-2 text-white" aria-label="To-Do List">To-Do List</a></li>
         {% endif %}
       </ul>
 
+      <!-- Authentication Buttons -->
       <div class="text-end">
-        <nav>
-          <ul class="list-unstyled mb-0">
-            {% if request.user.is_authenticated %}
-              <li><a href="{% url 'logout' %}" class="btn btn-outline-light me-2 text-decoration-none">Logout</a></li>
-            {% else %}
-              <li><a href="{% url 'log' %}" class="btn btn-outline-light me-2 text-decoration-none">Login</a></li>
-              <li><a href="{% url 'signup' %}" class="btn btn-outline-light text-decoration-none">Sign-Up</a></li>
-            {% endif %}
-          </ul>
-        </nav>
+        {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}" class="btn btn-outline-light me-2 text-decoration-none" aria-label="Logout">Logout</a>
+        {% else %}
+          <a href="{% url 'log' %}" class="btn btn-outline-light me-2 text-decoration-none" aria-label="Login">Login</a>
+          <a href="{% url 'signup' %}" class="btn btn-outline-light text-decoration-none" aria-label="Sign-Up">Sign-Up</a>
+        {% endif %}
       </div>
     </div>
   </div>
