@@ -1,64 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center vh-100">
-  <div class="form-wrap bg-white p-4 rounded shadow-sm" style="max-width: 370px; width: 100%;">
-    <h3 class="text-center mb-4">Create Your TaskFlow Account</h3>
-    <form method="POST" class="needs-validation" novalidate>
+<div class="shadow-wrap">
+  <div class="form-wrap">
+    <h3>Signup</h3>
+    <form method="POST">
       {% csrf_token %}
-      
-      <!-- Email Field -->
-      <div class="mb-3">
-        <label for="{{ form.email.id_for_label }}" class="form-label">Email:</label>
-        {{ form.email }}
-        {% if form.email.errors %}
-          <div class="form-text text-danger">
-            {{ form.email.errors|join:" " }}
-          </div>
-        {% endif %}
-      </div>
-      
-      <!-- Username Field -->
-      <div class="mb-3 d-flex align-items-center">
-        <label for="{{ form.username.id_for_label }}" class="form-label me-3" style="width: 35%;">Username:</label>
-        {{ form.username }}
-      </div>
-      {% if form.username.errors %}
-        <div class="form-text text-danger ms-3">
-          {{ form.username.errors|join:" " }}
-        </div>
-      {% endif %}
-
-      <!-- Password Field -->
-      <div class="mb-3 d-flex align-items-center">
-        <label for="{{ form.password1.id_for_label }}" class="form-label me-3" style="width: 35%;">Password:</label>
-        {{ form.password1 }}
-      </div>
-      <div class="form-text text-muted ms-3 mb-4">
-        Password must be at least 8 characters long and include one uppercase letter, one number, and one symbol (e.g., @, #, $).
-      </div>
-      {% if form.password1.errors %}
-        <div class="form-text text-danger ms-3">
-          {{ form.password1.errors|join:" " }}
-        </div>
-      {% endif %}
-
-      <!-- Confirm Password Field with Added Gap -->
-      <div class="mt-4 mb-3 d-flex align-items-center">
-        <label for="{{ form.password2.id_for_label }}" class="form-label me-3" style="width: 35%;">Confirm Password:</label>
-        {{ form.password2 }}
-      </div>
-      {% if form.password2.errors %}
-        <div class="form-text text-danger ms-3">
-          {{ form.password2.errors|join:" " }}
-        </div>
-      {% endif %}
-
-      <button type="submit" class="btn btn-primary w-100 mt2">Sign-up</button>
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary w-100">Signup</button>
     </form>
-    <p class="text-center mt-3">
-      Already have an account? <a href="{% url 'log' %}" class="text-decoration-none">Login here.</a>
-    </p>
+    <a class="signup-link" href="{% url 'log' %}">Already have an account? Login here.</a>
   </div>
 </div>
 {% endblock %}
