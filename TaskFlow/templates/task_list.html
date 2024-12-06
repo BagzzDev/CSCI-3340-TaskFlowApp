@@ -17,18 +17,19 @@
     </tr>
     {% for task in incomplete_tasks %}
     <tr>
-        <form method="POST" action="{% url 'task-update' task.id %}">
-            {% csrf_token %}
-            <td>
-                <input type="checkbox" name="complete" value="true" onchange="this.form.submit()">
-            </td>
-            <td>{{ task.title }}</td>
-            <td>
-                <a href="{% url 'task' task.id %}">View</a> |
-                <a href="{% url 'task-update' task.id %}">Edit</a> |
-                <a href="{% url 'task-delete' task.id %}">Delete</a>
-            </td>
-        </form>
+        <td>
+            <form method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="task_id" value="{{ task.id }}">
+                <input type="checkbox" onchange="this.form.submit()">
+            </form>
+        </td>
+        <td>{{ task.title }}</td>
+        <td>
+            <a href="{% url 'task' task.id %}">View</a> |
+            <a href="{% url 'task-update' task.id %}">Edit</a> |
+            <a href="{% url 'task-delete' task.id %}">Delete</a>
+        </td>
     </tr>
     {% empty %}
     <tr>
@@ -46,18 +47,19 @@
     </tr>
     {% for task in completed_tasks %}
     <tr>
-        <form method="POST" action="{% url 'task-update' task.id %}">
-            {% csrf_token %}
-            <td>
-                <input type="checkbox" name="complete" value="true" checked onchange="this.form.submit()">
-            </td>
-            <td style="text-decoration: line-through; color: gray;">{{ task.title }}</td>
-            <td>
-                <a href="{% url 'task' task.id %}">View</a> |
-                <a href="{% url 'task-update' task.id %}">Edit</a> |
-                <a href="{% url 'task-delete' task.id %}">Delete</a>
-            </td>
-        </form>
+        <td>
+            <form method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="task_id" value="{{ task.id }}">
+                <input type="checkbox" checked onchange="this.form.submit()">
+            </form>
+        </td>
+        <td style="text-decoration: line-through; color: gray;">{{ task.title }}</td>
+        <td>
+            <a href="{% url 'task' task.id %}">View</a> |
+            <a href="{% url 'task-update' task.id %}">Edit</a> |
+            <a href="{% url 'task-delete' task.id %}">Delete</a>
+        </td>
     </tr>
     {% empty %}
     <tr>

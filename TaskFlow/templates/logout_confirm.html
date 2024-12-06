@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="form-wrap bg-white p-4 rounded shadow-sm text-center" style="max-width: 400px; width: 100%;">
+    <h2 class="mb-3" style="color: #333;">Are you sure you want to Logout?</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger w-50 mt-3">Yes, Logout</button>
+    </form>
+    <a href="{% url 'home' %}" class="btn btn-secondary w-50 mt-3">Cancel</a>
+  </div>
+</div>
+{% endblock %}

@@ -44,12 +44,10 @@ def signup(request):
     if request.method == "POST":
         form = RegisterUserForm(request.POST)
         if form.is_valid():
-            # Check if email already exists
             email = form.cleaned_data['email']
             if User.objects.filter(email=email).exists():
                 form.add_error('email', 'An account with this email already exists.')
             else:
-                # Save the user if the email is unique
                 user = form.save(commit=False)
                 user.email = email
                 user.save()
@@ -59,10 +57,6 @@ def signup(request):
 
     return render(request, 'signup.html', {"form": form})
 
-
-        
-
-    return render(request, 'signup.html', {"form": form})
 
 def log(request):
     if request.method == 'POST':
@@ -86,24 +80,30 @@ def log(request):
     return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
-    logout(request)
-    return redirect('home') 
+    if request.method == 'POST':
+        logout(request)
+        messages.info(request, "You have been logged out.")
+        return redirect('home')
+    return render(request, 'logout_confirm.html') 
 
 class TaskList(LoginRequiredMixin, ListView):
-    model = Task
-    context_object_name = 'tasks'
     template_name = 'task_list.html'
 
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
+    def get(self, request):
+        incomplete_tasks = Task.objects.filter(user=request.user, complete=False)
+        completed_tasks = Task.objects.filter(user=request.user, complete=True)
+        return render(request, self.template_name, {
+            'incomplete_tasks': incomplete_tasks,
+            'completed_tasks': completed_tasks,
+        })
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user_tasks = Task.objects.filter(user=self.request.user)
-        context['incomplete_tasks'] = user_tasks.filter(complete=False)
-        context['completed_tasks'] = user_tasks.filter(complete=True)
-        context['user'] = self.request.user
-        return context
+    def post(self, request):
+        task_id = request.POST.get('task_id')
+        if task_id:
+            task = Task.objects.get(id=task_id, user=request.user)
+            task.complete = not task.complete
+            task.save()
+        return redirect('tasks')
 
 class TaskDetail(LoginRequiredMixin, DetailView):
     model = Task
@@ -126,12 +126,9 @@ class TaskUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('tasks')
     template_name = 'task_form.html'
 
-    def post(self, request, *args, **kwargs):
-        """Handle the toggle logic when the checkbox is used."""
-        task = self.get_object()
-        task.complete = 'complete' in request.POST
-        task.save()
-        return HttpResponseRedirect(self.success_url)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class DeleteView(LoginRequiredMixin, DeleteView):
     model = Task
