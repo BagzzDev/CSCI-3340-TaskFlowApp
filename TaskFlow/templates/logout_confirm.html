@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex justify-content-center align-items-center vh-100">
-  <div class="form-wrap bg-white p-4 rounded shadow-sm text-center" style="max-width: 400px; width: 100%;">
-    <h2 class="mb-3" style="color: #333;">Are you sure you want to Logout?</h2>
-    <form method="POST">
+<div style="display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; margin: 0; padding: 0; background: linear-gradient(45deg, #a9dce3, #7689de);">
+  <div class="form-wrap bg-white p-5 rounded shadow-sm text-center" style="max-width: 500px; width: 100%; border: 1px solid #a9dce3;">
+    <h2 class="mb-4" style="color: #42527c; font-family: 'Poppins', sans-serif; font-size: 1.8rem;">Are you sure you want to Logout?</h2>
+    <form method="POST" class="mb-4">
       {% csrf_token %}
-      <button type="submit" class="btn btn-danger w-50 mt-3">Yes, Logout</button>
+      <button type="submit" class="btn btn-primary w-75 mb-3" style="background-color: #5a8bb8; border: none; font-size: 1.2rem; padding: 0.75rem;">Yes, Logout</button>
     </form>
-    <a href="{% url 'home' %}" class="btn btn-secondary w-50 mt-3">Cancel</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary w-75" style="background-color: #7689de; border: none; font-size: 1.2rem; padding: 0.75rem;">Cancel</a>
   </div>
 </div>
 {% endblock %}

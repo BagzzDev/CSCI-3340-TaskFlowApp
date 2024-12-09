@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -26,65 +27,64 @@ def freqask(request):
 def contact(request):
     return render(request, 'contact.html')
 
-class RegisterUserForm(UserCreationForm):
-    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = User
-        fields = ['email', 'username', 'password1', 'password2']
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.email = self.cleaned_data['email']
-        if commit:
-            user.save()
-        return user
-
 def signup(request):
     if request.method == "POST":
         form = RegisterUserForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
-            if User.objects.filter(email=email).exists():
-                form.add_error('email', 'An account with this email already exists.')
-            else:
-                user = form.save(commit=False)
-                user.email = email
-                user.save()
-                return redirect('log')
+            form.save()
+            messages.success(request, "Account created successfully! Please log in.")
+            return redirect("log")
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
         form = RegisterUserForm()
 
-    return render(request, 'signup.html', {"form": form})
-
+    return render(request, "signup.html", {"form": form})
 
 def log(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
             user = authenticate(request, username=username, password=password)
-
             if user is not None:
                 login(request, user)
-                messages.success(request, "Login successful.")
-                return redirect('home') 
-
+                return redirect("home")
             else:
                 messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
     else:
         form = AuthenticationForm()
 
-    return render(request, 'login.html', {'form': form})
+    return render(request, "login.html", {"form": form})
 
 def logout_view(request):
     if request.method == 'POST':
         logout(request)
         messages.info(request, "You have been logged out.")
         return redirect('home')
-    return render(request, 'logout_confirm.html') 
+    return render(request, 'logout_confirm.html')
+
+class RegisterUserForm(UserCreationForm):
+    email = forms.EmailField(required=True, label="Email")
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("An account with this email already exists.")
+        return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("This username is already taken.")
+        return username
 
 class TaskList(LoginRequiredMixin, ListView):
     template_name = 'task_list.html'

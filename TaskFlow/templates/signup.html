@@ -1,15 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="shadow-wrap">
-  <div class="form-wrap">
-    <h3>Signup</h3>
-    <form method="POST">
+<div style="display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; margin: 0; padding: 0; background: linear-gradient(45deg, #a9dce3, #7689de);">
+  <div class="form-wrap bg-white p-5 rounded shadow-sm" style="max-width: 500px; width: 100%; border: 1px solid #a9dce3;">
+    <h3 class="text-center mb-4" style="color: #42527c; font-family: 'Poppins', sans-serif; font-weight: bold; font-size: 1.8rem;">Create Your Account</h3>
+    <form method="POST" novalidate>
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary w-100">Signup</button>
+      {{ form.non_field_errors }}
+      <div class="row mb-4">
+        <label for="{{ form.email.id_for_label }}" class="col-4 col-form-label text-end" style="color: #42527c; font-size: 1.2rem;">Email:</label>
+        <div class="col-8">
+          <input type="email" name="email" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default:'' }}" style="width: 100%; padding: 12px; font-size: 1.2rem; border: 1px solid #a9dce3; border-radius: 6px;">
+          <small class="text-danger">{{ form.email.errors }}</small>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <label for="{{ form.username.id_for_label }}" class="col-4 col-form-label text-end" style="color: #42527c; font-size: 1.2rem;">Username:</label>
+        <div class="col-8">
+          <input type="text" name="username" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default:'' }}" style="width: 100%; padding: 12px; font-size: 1.2rem; border: 1px solid #a9dce3; border-radius: 6px;">
+          <small class="text-danger">{{ form.username.errors }}</small>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <label for="{{ form.password1.id_for_label }}" class="col-4 col-form-label text-end" style="color: #42527c; font-size: 1.2rem;">Password:</label>
+        <div class="col-8">
+          <input type="password" name="password1" id="{{ form.password1.id_for_label }}" style="width: 100%; padding: 12px; font-size: 1.2rem; border: 1px solid #a9dce3; border-radius: 6px;">
+          <small class="form-text text-muted">Password must be at least 8 characters long and include at least one symbol.</small>
+          <small class="text-danger">{{ form.password1.errors }}</small>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <label for="{{ form.password2.id_for_label }}" class="col-4 col-form-label text-end" style="color: #42527c; font-size: 1.2rem;">Confirm Password:</label>
+        <div class="col-8">
+          <input type="password" name="password2" id="{{ form.password2.id_for_label }}" style="width: 100%; padding: 12px; font-size: 1.2rem; border: 1px solid #a9dce3; border-radius: 6px;">
+          <small class="text-danger">{{ form.password2.errors }}</small>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary w-100 mt-4" style="background-color: #5a8bb8; font-weight: bold; font-size: 1.2rem; padding: 0.85rem;">Sign Up</button>
     </form>
-    <a class="signup-link" href="{% url 'log' %}">Already have an account? Login here.</a>
+    <p class="mt-4 text-center" style="font-size: 1.2rem;">
+      Already have an account? <a href="{% url 'log' %}" style="color: #5a8bb8;">Login here.</a>
+    </p>
   </div>
 </div>
 {% endblock %}
